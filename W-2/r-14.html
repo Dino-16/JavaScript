@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Selection and traversal</title>
+</head>
+<body>
+    <h1 id="main-title"></h1>
+    <ul class="items">
+        <li class="list-item"></li>
+        <li class="list-item"></li>
+        <li class="list-item"></li>
+    </ul>
+    <p></p>
+</body>
+<script>
+    /* * * Dom Selection * * */
+    // Select by ID
+    let title = document.getElementById("main-title");
+    title.textContent = 'Dom Selection and Traversal';
+
+    // Select by class
+    const items = document.querySelectorAll(".list-item");
+    const fruits = ["Apple", "Banana", "Orange"];
+
+    // Looping through the elements directly
+    items.forEach((element, i) => {
+        element.textContent = fruits[i] || ""; 
+    });
+
+    // Select by tag
+    let paragraph = document.getElementsByTagName("p")[0]; // index of 0 is accessing the first p
+    paragraph.textContent = "Practicing Dom Manipulation"
+
+    // Modern query selectors
+    let firstItem = document.querySelector(".list-item"); // first match
+    firstItem.style.color = "red";
+
+    let allItems = document.querySelectorAll(".list-item"); // all matches
+    allItems.forEach((element2, index) => {
+        element2.style.padding = "10px";
+        element2.style.margin = "10px";
+        element2.style.backgroundColor = "green";
+        element2.style.color = "white";
+    });
+
+  /* --- TRAVERSAL: GOING UP TO THE PARENT --- */
+    let parentList = firstItem.parentElement; // The <ul> (The Container)
+    parentList.style.backgroundColor = "#f0f0f0";
+    parentList.style.padding = "20px";
+
+    /* --- ITERATION: TARGETING THE CHILDREN --- */
+    // parentList.children refers to all <li> tags inside the <ul>
+    Array.from(parentList.children).forEach((child) => {
+        // 'child' is each individual <li> inside the parent
+        child.style.listStyleType = "none"; 
+    });
+
+</script>
+</html>
