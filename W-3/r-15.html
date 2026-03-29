@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating and Updating Elements in the DOM</title>
+</head>
+<body>
+    <h3 id="greeting">Hello</h3>
+    <script>
+        // Task: Create a new element using document.createElement("tagName")
+        const firstElement = document.createElement("h1");
+        
+        // Task: Add content to the element using .innerHTML
+        firstElement.innerHTML = "Element";
+        
+        // Task: Attach attributes or classes using .classList.add("className") and .style
+        firstElement.classList.add("title");
+        firstElement.style.color = "red";
+        
+        // Task: Append element to the DOM using .append()
+        document.body.append(firstElement);
+
+        const secondElement = document.createElement("p");
+        secondElement.innerHTML = "Creating Element";
+        secondElement.classList.add("paragraph");
+        secondElement.style.color = "gray";
+        document.body.append(secondElement);
+
+        const parentElement = document.body;
+        const newDiv = document.createElement("div");
+        newDiv.innerHTML = "I'm first now!";
+
+        // Task: Insert element at specific positions using .prepend()
+        parentElement.prepend(newDiv);
+
+        const beforeNewDiv = document.createElement("h1");
+        beforeNewDiv.innerHTML = "Im before the first";
+        
+        // Task: Use .before() to insert relative to another element
+        parentElement.before(beforeNewDiv);
+
+        const afterNewDiv = document.createElement("h3");
+        afterNewDiv.innerHTML = "Im after the first";
+        
+        // Task: Use .after() to insert relative to another element
+        newDiv.after(afterNewDiv);
+
+        // Task: Update existing elements - Select (querySelector) and change .style
+        const updateElement = document.querySelector("h3");
+        updateElement.style.color = "blue";
+
+        const newElement = document.createElement("p");
+        newElement.innerHTML = "replace the old p";
+
+        // Task: Replace elements using .replaceChild(newElement, oldElement)
+        parentElement.replaceChild(newElement, secondElement);
+
+        // Task: Remove elements using .remove()
+        const deleteElement = document.getElementById("greeting");
+        deleteElement.remove();
+
+        /**
+         * 
+         * 1. Create: Use document.createElement("tagName") to generate a new node.
+         * 2. Content: Use .textContent (text only) or .innerHTML (includes HTML tags).
+         * 3. Style/ID: Use .classList.add() for classes or .style.property for inline CSS.
+         * 4. Append: Use .appendChild() or .append() to add as the LAST child of a parent.
+         * 5. Prepend: Use .prepend() to add as the FIRST child of a parent.
+         * 6. Sibling Position: Use .before() or .after() to place elements outside a reference node.
+         * 7. Update: Select elements via querySelector/getElementById and modify their properties.
+         * 8. Replace: Use parent.replaceChild(newNode, oldNode) to swap elements.
+         * 9. Remove: Use element.remove() to delete a node from the document.
+         */
+    </script>
+</body>
+</html>
