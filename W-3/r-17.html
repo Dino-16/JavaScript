@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Handling + Validation</title>
+</head>
+<body>
+    <h1>Register Form</h1>
+    <p id="Result"></p>
+    <form id="myForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+            <p id="error-name"></p>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email">
+            <p id="error-email"></p>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password">
+            <p id="error-password"></p>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+    <script>
+        const form = document.getElementById("myForm");
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+
+        // error 
+        const errorName = document.getElementById("error-name");
+        const errorEmail = document.getElementById("error-email");
+        const errorPassword = document.getElementById("error-password");
+
+        // validation
+        name.addEventListener("input", function() {
+            if (!/^[A-Za-z]+$/.test(name.value)) {
+                errorName.textContent = "Only alphabet letters are accepted";
+                errorName.style.color = "red";
+                isValid
+            } else {
+                errorName.textContent = "";
+            }
+        });
+
+        name.addEventListener("input", function() {
+            if (!/^[A-Za-z]+$/.test(name.value)) {
+                errorName.textContent = "Only alphabet letters are accepted";
+                errorName.style.color = "red";
+            } else {
+                errorName.textContent = "";
+            }
+        });
+
+        email.addEventListener("input", function() {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                errorEmail.textContent = "Must be a valid email";
+                errorEmail.style.color = "red";
+            } else {
+                errorEmail.textContent = "";
+            }
+        });
+
+        password.addEventListener("input", function() {
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+            if (!strongRegex.test(password.value)) {
+                errorPassword.textContent = "Must be a strong password (min 8 chars, uppercase, number, special)";
+                errorPassword.style.color = "red";
+            } else {
+                errorPassword.textContent = "Your password is strong!";
+                errorPassword.style.color = "green";
+            }
+        });
+
+        // Complete form submit event listener
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+
+            // Validate name
+            if (!/^[A-Za-z]+$/.test(name.value)) {
+                errorName.textContent = "Only alphabet letters are accepted";
+                errorName.style.color = "red";
+                isValid = false;
+            } else {
+                errorName.textContent = "";
+            }
+
+            // Validate email
+            if (email.value.trim() === "") {
+                errorEmail.textContent = "Email is required";
+                errorEmail.style.color = "red";
+                isValid = false;
+            } else {
+                errorEmail.textContent = "";
+            }
+
+            // Validate password
+            if (password.value.trim() === "") {
+                errorPassword.textContent = "Password is required";
+                errorPassword.style.color = "red";
+                isValid = false;
+            } else {
+                errorPassword.textContent = "";
+            }
+
+            // Display success message if all fields are valid
+            if (isValid) {
+                const result = document.getElementById("Result");
+                result.textContent = "You registered successfully!";
+                result.style.color = "green";
+            }
+        });    
+    </script>
+</body>
+</html>
