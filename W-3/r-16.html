@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events (click, input, submit, delegation)</title>
+</head>
+<body>
+    <h1 class="title">Events</h1>
+    <button id="myButton">click me!</button>
+    <br><br>
+
+    <input type="text" id="textInput" placeholder="live input">
+    <p>Preview: <span id="previewText"></span></p>
+    <br><br>
+
+    <form id="myForm">
+        <input type="text" id="username" placeholder="enter your name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="message"></p>
+    <br><br>
+
+    <ul id="myList">
+        <li>List 1</li>
+        <li>List 2</li>
+        <li>List 3</li>
+    </ul>
+
+    <p id="result"></p>
+
+    <script>
+        const title = document.getElementsByClassName("title");
+
+        const button = document.getElementById("myButton");
+        // Click event: changes the title text when button is clicked
+        button.addEventListener("click", function() {
+            title[0].textContent = "Events (click, input, submit, delegation)";
+        });
+
+        const textInput = document.getElementById("textInput");
+        const previewText = document.getElementById("previewText");
+
+        // Input event: updates preview text in real time as user types
+        textInput.addEventListener("input", function() {
+            previewText.textContent = textInput.value;
+        });
+
+        const myForm = document.getElementById("myForm");
+        const userName = document.getElementById("username");
+        const message = document.getElementById("message");
+
+        // Submit event: prevents page reload and validates input
+        myForm.addEventListener("submit", function(event) {
+            event.preventDefault(); // stop default form submission
+
+            if(userName.value.trim() === "") {
+                message.textContent = "please enter a name";
+                message.style.color = "red";
+            } else {
+                message.textContent = `Hello ${userName.value}`;
+                message.style.color = "green";
+            }
+        });
+
+        const list = document.getElementById("myList");
+        const result = document.getElementById("result");
+
+        // Event delegation: detects which <li> was clicked using event.target
+        list.addEventListener("click", function(event) {
+            result.textContent = event.target.textContent;
+        });
+    </script>
+</body>
+</html>
