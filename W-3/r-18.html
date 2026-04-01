@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Storage Demo</title>
+</head>
+<body>
+    <h2>Local Storage Todo</h2>
+
+    <input type="text" id="taskInput" placeholder="Enter Task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+
+    <h2>Session Storage Counter</h2>
+    <p id="count"></p>
+    
+    <script>
+        /**
+         * LOCAL STORAGE:
+         * - Data persists even after the browser is closed and reopened.
+         * - Useful for user preferences, themes, or Todo lists.
+         */
+
+        document.addEventListener("DOMContentLoaded", loadTasks);
+
+        function getTasks() {
+            // getItem(key): Retrieves the value associated with the key.
+            // Since Web Storage only stores strings, we use JSON.parse to turn it back into an array.
+            const tasks = localStorage.getItem("tasks");
+            return tasks ? JSON.parse(tasks) : [];
+        }
+
+        function saveTasks(tasks) {
+            // setItem(key, value): Saves data to storage. 
+            // We use JSON.stringify because storage cannot save raw Arrays/Objects.
+            return localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const input = document.getElementById("taskInput");
+            const task = input.value.trim();
+
+            if(task === "") return;
+
+            const tasks = getTasks();
+            tasks.push(task);
+            saveTasks(tasks);
+
+            input.value = "";
+            loadTasks();
+        }
+
+        function deleteTask(index) {
+            const tasks = getTasks();
+            tasks.splice(index, 1); 
+            saveTasks(tasks); 
+            loadTasks(); 
+        }
+
+        function loadTasks() {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
+
+            const tasks = getTasks();
+
+            tasks.forEach((task, index) => {
+                const li = document.createElement("li");
+                li.textContent = task;
+
+                const btn = document.createElement("button");
+                btn.textContent = "Delete";
+                btn.onclick = () => deleteTask(index);
+
+                li.appendChild(btn);
+                list.appendChild(li);
+            });
+        }
+
+        /**
+         * SESSION STORAGE:
+         * - Data is cleared when the page session ends (when the tab is closed).
+         * - Useful for temporary data like form progress or session-specific counters.
+         */
+        
+        // getItem: Retrieve the current count
+        let count = sessionStorage.getItem("pageCount");
+
+        if(!count) {
+            count = 1;
+        } else {
+            count = Number(count) + 1;
+        }
+
+        // setItem: Update the count in the session
+        sessionStorage.setItem("pageCount", count);
+        document.getElementById("count").textContent = count;
+
+        /* OTHER IMPORTANT METHODS:
+           
+           1. removeItem(key):
+              localStorage.removeItem("tasks"); // Deletes only the "tasks" entry.
+           
+           2. clear():
+              sessionStorage.clear(); // Deletes ALL items inside session storage for this site.
+        */
+
+    </script>
+</body>
+</html>
