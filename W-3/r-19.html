@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select name="filter" id="filter">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="done">Done</option>
+    </select>
+    <input type="text" name="" id="task">
+    <button id="addTask">Add</button>
+
+    <ul id="tasks"></ul>
+
+    <script>
+        // Get references to the input, button, tasks list, and filter dropdown
+        const task = document.getElementById("task");
+        const button = document.getElementById("addTask");
+        const tasks = document.getElementById("tasks");
+        const filter = document.getElementById("filter");
+
+        // Add a new task when the "Add" button is clicked
+        button.addEventListener("click", function() {
+            const li = document.createElement("li"); // Create a new <li> element
+            const checkBox = document.createElement("input"); // Create a checkbox
+            checkBox.type = "checkbox"; // Set the checkbox type
+
+            li.textContent = task.value; // Set the text of the <li> to the input value
+            task.value = ""; // Clear the input field
+
+            const deleteButton = document.createElement("button"); // Create a delete button
+            deleteButton.textContent = "Delete"; // Set the button text
+
+            // Add an event listener to the delete button to remove the task
+            deleteButton.addEventListener("click", function() {
+                tasks.removeChild(li); // Remove the <li> from the <ul>
+            });
+
+            li.appendChild(checkBox); // Add the checkbox to the <li>
+            li.appendChild(deleteButton); // Add the delete button to the <li>
+            tasks.appendChild(li); // Add the <li> to the <ul>
+        });
+
+        // Edit a task when an <li> is clicked
+        tasks.addEventListener("click", function(event) {
+            if (event.target.tagName === "LI") { // Check if the clicked element is an <li>
+                const originalCheckbox = event.target.querySelector("input[type='checkbox']"); // Get the existing checkbox
+                const originalDeleteButton = event.target.querySelector("button"); // Get the existing delete button
+
+                const editInput = document.createElement("input"); // Create an input field for editing
+                editInput.type = "text"; // Set the input type to text
+                editInput.value = event.target.textContent.trim(); // Set the input value to the current <li> text
+
+                event.target.textContent = ""; // Clear the <li> text
+                event.target.appendChild(editInput); // Add the input field to the <li>
+                event.target.appendChild(originalCheckbox); // Re-add the checkbox
+                event.target.appendChild(originalDeleteButton); // Re-add the delete button
+
+                editInput.focus(); // Focus on the input field for editing
+
+                // Update the task text when the Enter key is pressed
+                editInput.addEventListener("keydown", function updateText(e) {
+                    if (e.key === "Enter") {
+                        event.target.textContent = editInput.value; // Update the <li> text
+                        event.target.appendChild(originalCheckbox); // Re-add the checkbox
+                        event.target.appendChild(originalDeleteButton); // Re-add the delete button
+                        editInput.removeEventListener("keydown", updateText); // Remove the event listener
+                    }
+                });
+            }
+        });
+
+        // Filter tasks based on the selected filter option
+        filter.addEventListener("change", function() {
+            const filterValue = filter.value; // Get the selected filter value
+            const allTasks = tasks.querySelectorAll("li"); // Get all <li> elements
+
+            allTasks.forEach(function(task) {
+                const checkbox = task.querySelector("input[type='checkbox']"); // Get the checkbox inside the <li>
+
+                if (filterValue === "all") {
+                    task.style.display = ""; // Show all tasks
+                } else if (filterValue === "active" && checkbox && !checkbox.checked) {
+                    task.style.display = ""; // Show only active (unchecked) tasks
+                } else if (filterValue === "done" && checkbox && checkbox.checked) {
+                    task.style.display = ""; // Show only done (checked) tasks
+                } else {
+                    task.style.display = "none"; // Hide tasks that don't match the filter
+                }
+            });
+        });
+     
+    </script>
+</body>
+</html>
