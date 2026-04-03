@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback Breakdown</title>
+</head>
+<body>
+    <button id="btn">Click me</button>
+    <p id="initialResult"></p>
+    <p id="result"></p>
+
+    <script>
+        const btn = document.getElementById("btn");
+        const initialResult = document.getElementById("initialResult");
+        const result = document.getElementById("result");
+
+        // 1. The first callback: 
+        // We pass an anonymous function to addEventListener. 
+        // It won't run now; it waits for the "click".
+        btn.addEventListener("click", function() {
+            
+            initialResult.textContent = "Button clicked! Starting the timer...";
+
+            // 2. The second callback (Nested):
+            // We pass another function to setTimeout.
+            // This is "called back" by the browser only after 2000ms.
+            setTimeout(function() {
+                
+                // This line only runs when the timer finishes
+                result.textContent = "Result: Hello World";
+                console.log("Timer finished, text changed!");
+
+            }, 2000 ); // The delay for the second callback
+            
+        });
+    </script>
+</body>
+</html>
