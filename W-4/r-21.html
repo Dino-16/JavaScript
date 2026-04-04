@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise</title>
+</head>
+<body>
+    <h2>Cookie Oven</h2>
+    <button onClick="bakeCookie()">Start Baking</button>
+    <p id="message">Click the button to start...</p>
+
+    <script>
+        function bakeCookie() {
+            const display = document.getElementById("message");
+            display.innerText = "Baking... please wait ...";
+
+            const cookiePromise = new Promise((resolve, reject) => {
+                const hasSugar = Math.random() > 0.3;
+
+                setTimeout(() => {
+                    if(hasSugar) {
+                        resolve("Your Cookie is Ready!");
+                    } else {
+                        reject("Oh no we ran out of sugar!");
+                    }
+                }, 2000);
+            });
+
+            cookiePromise
+                .then((result) => {
+                    display.innerText = result;
+                })
+                .catch((error) => {
+                    display.innerText = error;
+                });
+        }
+    </script>
+</body>
+</html>
